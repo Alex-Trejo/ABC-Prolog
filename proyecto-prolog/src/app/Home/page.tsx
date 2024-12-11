@@ -4,36 +4,27 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-const data = {
-  status: "success",
-  items: [
-    {
-      ID: "b'25'",
-      Descripcion: "b'The seunshare_mount function in sandbox/seunshare.c in seunshare in certain Red Hat packages of policycoreutils 2.0.83 and earlier in Red Hat Enterprise Linux (RHEL) 6 and earlier, and Fedora 14 and earlier, mounts a new directory on top of /tmp without assigning root ownership and the sticky bit to this new directory, which allows local users to replace or delete arbitrary /tmp files, and consequently cause a denial of service or possibly gain privileges, by running a setuid application that relies on /tmp, as demonstrated by the ksu application.'",
-      EPSS: "b'44'",
-      Version: "b''"
-    },
-    {
-      ID: "b'26'",
-      Descripcion: "b'Another vulnerability description here.'",
-      EPSS: "b'50'",
-      Version: "b'1.0'"
-    }
-  ]
-};
+interface Vulnerability {
+  ID: string;
+  Descripcion: string;
+  EPSS: string;
+  Version: string;
+}
 
 export default function Home() {
 
-  const [vulnerabilities, setVulnerabilities] = useState([]);
+  const [vulnerabilities, setVulnerabilities] = useState<Vulnerability[]>([]);
   const [os, setOs] = useState("Windows 10");
   const [epss, setEpss] = useState("0");
 
-  const cleanValue = (value) => {
+  const cleanValue = (value: string): string => {
     // Elimina los prefijos y sufijos 'b' y '
-    if (typeof value === "string") {
-      return value.replace(/^b'/, "").replace(/'$/, "");
-    }
-    return value;
+    return value.replace(/^b'/, "").replace(/'$/, "");
+  };
+
+  // Función para eliminar un elemento por ID
+  const handleDelete = () => {
+    setVulnerabilities([]);
   };
 
   const getVulnerabilities = async () => {
@@ -42,8 +33,9 @@ export default function Home() {
         so: os
       });
       console.log('os:', os);
-      console.log('Response:', response.data);
-      return response.data;
+      console.log('Response:', response.data.items);
+      setVulnerabilities(response.data.items);
+      return response.data.items;
     } catch (error) {
       console.error('Error fetching vulnerabilities:', error);
       throw error;
@@ -56,8 +48,9 @@ export default function Home() {
         epss: epss
       });
       console.log('epss:', epss);
-      console.log('Response:', response.data);
-      return response.data;
+      console.log('Response:', response.data.items);
+      setVulnerabilities(response.data.items);
+      return response.data.items;
     } catch (error) {
       console.error('Error fetching vulnerabilities:', error);
       throw error;
@@ -158,10 +151,16 @@ export default function Home() {
         >
                 Analisis Alto Riesgo
         </button>  {/* Analisis Alto Riesgo http://127.0.0.1:8000/risk/*/}
+        <button
+                  onClick={() => handleDelete()}
+                  className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-700"
+                >
+                  Eliminar
+                </button>
       </div>
 
-      <div className="w-full max-w-4xl overflow-x-auto">
-        <table className="min-w-full border-collapse border border-gray-300 z-10">
+      <div className="max-h-96 overflow-y-auto border border-gray-300">
+        <table className="table-auto w-full border-collapse">
           <thead className="">
             <tr className="">
               <th className="border border-gray-300 px-4 py-2">Id</th>
@@ -172,14 +171,17 @@ export default function Home() {
             </tr>
           </thead>
           <tbody>
-          {data.items.map((item, index) => (
-            <tr key={index} className="text-center">
-              <td className="border border-gray-300 px-4 py-2">{cleanValue(item.ID)}</td>
-              <td className="border border-gray-300 px-4 py-2">{cleanValue(item.Descripcion)}</td>
-              <td className="border border-gray-300 px-4 py-2">{cleanValue(item.EPSS)}</td>
-              <td className="border border-gray-300 px-4 py-2">{cleanValue(item.Version)}</td>
-            </tr>
-          ))}
+          {
+            vulnerabilities.map((vulnerability) => (
+              <tr key={vulnerability.ID} className="">
+                <td className="border border-gray-300 px-4 py-2">{cleanValue(vulnerability.ID)}</td>
+                <td className="border border-gray-300 px-4 py-2">{cleanValue(vulnerability.Descripcion)}</td>
+                <td className="border border-gray-300 px-4 py-2">{cleanValue(vulnerability.EPSS)}</td>
+                <td className="border border-gray-300 px-4 py-2">{cleanValue(vulnerability.Version)}</td>
+              </tr>
+              
+            ))
+          }
           </tbody>
         </table>
       </div>
