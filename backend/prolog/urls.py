@@ -1,6 +1,7 @@
 from django.urls import path
-from .views import PrologView
+from .views import Complete_Search, Search_by_Risk
 
 urlpatterns = [
-    path('test/', PrologView.as_view()),
+    path('complete/', Complete_Search.as_view()),
+    path('risk/', Search_by_Risk.as_view()),
 ]
