@@ -1572,15 +1572,15 @@ vulnerability("1224","Google","19997","Android","1771432","cpe:2.3:o:google:andr
 %Reglas
 
 tiene_vulnerabilidades(SO, Vulnerabilidades) :-
-    findall([ID, Descripcion, EPSS],
-            vulnerability(ID, _, _, SO, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, Descripcion, _, _, _, _, _, _, _, _, _, EPSS, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _),
+    findall([ID, Descripcion, EPSS, Version],
+            vulnerability(ID, _, _, SO, _, _, Version, _, _, _, _, _, _, _, _, _, _, _, _, Descripcion, _, _, _, _, _, _, _, _, _, EPSS, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _),
             Vulnerabilidades).
 
 analisis_explotabilidad(EPSSLimite, ListaVulnerabilidades) :-
     findall(
-        [ID, Vendor, Producto, CVE, EPSS],
+        [ID, Descripcion, EPSS, Version],
         ( 
-            vulnerability(ID, Vendor, _,Producto, _, _,_,_,_,_,CVE, _, _, _,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_, EPSSRaw, _,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_),
+            vulnerability(ID, _, _, _, _, _,Version,_,_,_,_, _, _, _,_,_,_,_,_,Descripcion,_,_,_,_,_,_,_,_,_, EPSSRaw, _,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_),
             number_string(EPSSRawNum, EPSSRaw),  % Convertimos EPSSRaw de string a número.
             EPSS is EPSSRawNum / 1000,  % Convertimos EPSSRawNum a decimal.
             EPSS > EPSSLimite  % Comprobamos si el EPSS es mayor al límite.
