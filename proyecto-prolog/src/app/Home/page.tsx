@@ -44,42 +44,58 @@ export default function Home() {
             id="os"
             className="text-gray-500 w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-pink-500 hover:transition duration-100 ease-in-out"
           >
-            <option value="windows" className="text-gray-500">Windows</option>
-            <option value="macos" className="text-gray-500">macOS</option>
-            <option value="linux" className="text-gray-500">Linux</option>
+            <option value="windows 10" className="text-gray-500">Windows 10</option>
+            <option value="Mac Os X" className="text-gray-500">Mac Os X</option>
+            <option value="Macos" className="text-gray-500">Macos</option>
+            {/* Fedora */}
+            <option value="fedora" className="text-gray-500">Fedora</option>
+            {/* Android */}
+            <option value="android" className="text-gray-500">Android</option>
+            {/* Manjaro Linux */}
+            <option value="manjaro linux" className="text-gray-500">Manjaro Linux</option>
+            {/* Ubuntu Linux */}
+            <option value="ubuntu linux" className="text-gray-500">Ubuntu Linux</option>
+            {/* Solaris */}
+            <option value="solaris" className="text-gray-500">Solaris</option>
+            {/* Debian */}
+
+
           </select>
         </div>
 
   
+        
+
         <div>
-          <label htmlFor="version" className="block text-lg font-medium mb-2">Versión</label>
-          <select
-            id="version"
-            className="text-gray-500 w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-pink-500"
-          >
-            <option value="10" className="text-gray-500">10</option>
-            <option value="11" className="text-gray-500">11</option>
-            <option value="12" className="text-gray-500">12</option>
-          </select>
+          <label htmlFor="epss" className="block text-lg font-medium mb-2">Epss</label>
+          <input
+            type="number"
+            id="epss"
+            name="epss"
+            step="any"  
+            className="text-gray-500 w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-pink-500 hover:transition duration-100 ease-in-out"
+            placeholder="Ingresa un valor numérico"
+          />
         </div>
+
       </div>
 
 
       <div className="flex gap-4">
-        <button className=" bg-pink-700 text-white px-4 py-2 rounded-md hover:scale-110 transition delay-100 ease-in-out duration-300 hover:-translate-y-1">Busqueda Completa</button>
-        <button className="bg-pink-700 text-white px-4 py-2 rounded-md hover:scale-110 transition delay-100 ease-in-out duration-300 hover:-translate-y-1">Analisis Alto Riesgo</button>
-        <button className="bg-pink-700 text-white px-4 py-2 rounded-md hover:scale-110 transition delay-100 ease-in-out duration-300 hover:-translate-y-1">Burscar Más Común</button>
+        <button className=" bg-pink-700 text-white px-4 py-2 rounded-md hover:scale-110 transition delay-100 ease-in-out duration-300 hover:-translate-y-1">Busqueda Completa</button>   {/* ruta a ocupar http://127.0.0.1:8000/complete/
+*/}
+        <button className="bg-pink-700 text-white px-4 py-2 rounded-md hover:scale-110 transition delay-100 ease-in-out duration-300 hover:-translate-y-1">Analisis Alto Riesgo</button>  {/* Analisis Alto Riesgo http://127.0.0.1:8000/risk/*/}
       </div>
 
       <div className="w-full max-w-4xl overflow-x-auto">
         <table className="min-w-full border-collapse border border-gray-300 z-10">
           <thead className="">
             <tr className="">
-              <th className="border border-gray-300 px-4 py-2">Id Vulnerabilidad</th>
-              <th className="border border-gray-300 px-4 py-2">Tipo Vulnerabilidad</th>
-              <th className="border border-gray-300 px-4 py-2">Nivel De Riesgo</th>
+              <th className="border border-gray-300 px-4 py-2">Id</th>
+              <th className="border border-gray-300 px-4 py-2">Descripcion</th>
+              <th className="border border-gray-300 px-4 py-2">EPSS</th>
               <th className="border border-gray-300 px-4 py-2">Versión Afectada</th>
-              <th className="border border-gray-300 px-4 py-2">Solución</th>
+              
             </tr>
           </thead>
           <tbody>
@@ -88,14 +104,14 @@ export default function Home() {
               <td className="border border-gray-300 px-4 py-2">Descripción de la vulnerabilidad 1</td>
               <td className="border border-gray-300 px-4 py-2">Alta</td>
               <td className="border border-gray-300 px-4 py-2">Vuln1</td>
-              <td className="border border-gray-300 px-4 py-2">Vuln1</td>
+              
             </tr>
             <tr className="">
               <td className="border border-gray-300 px-4 py-2">Vuln2</td>
               <td className="border border-gray-300 px-4 py-2">Descripción de la vulnerabilidad 2</td>
               <td className="border border-gray-300 px-4 py-2">Media</td>
               <td className="border border-gray-300 px-4 py-2">Vuln1</td>
-              <td className="border border-gray-300 px-4 py-2">Vuln1</td>
+              
             </tr>
           </tbody>
         </table>
