@@ -1,7 +1,6 @@
-# from django import urls
-# from django.urls import path
-# from . import views
+from django.urls import path
+from .views import PrologView
 
-# urlpatterns = [
-#     path('', views.index, name='index'),
-# ]
+urlpatterns = [
+    path('test/', PrologView.as_view()),
+]
