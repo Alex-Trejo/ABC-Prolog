@@ -1,6 +1,39 @@
+'use client'
+
 import Image from "next/image";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
 export default function Home() {
+
+  const [vulnerabilities, setVulnerabilities] = useState([]);
+  const [os, setOs] = useState("");
+  const [epss, setEpss] = useState("");
+
+  const getVulnerabilities = async () => {
+    try {
+      axios("http://127.0.0.1:8000/complete/", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        data: {
+          os: "Windows 10",
+        },
+      }
+      )
+      .then((response) => {
+        setVulnerabilities(response.data);
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   return (
     <div className=" grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
       <header className="fixed top-0 left-0 w-full bg-white/15 backdrop-blur-md p-4 flex items-center justify-between z-50 ">
@@ -42,6 +75,7 @@ export default function Home() {
           <label htmlFor="os" className="block text-lg font-medium mb-2">Sistema Operativo</label>
           <select
             id="os"
+            onChange={(e) => setOs(e.target.value)}
             className="text-gray-500 w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-pink-500 hover:transition duration-100 ease-in-out"
           >
             <option value="windows 10" className="text-gray-500">Windows 10</option>
@@ -75,6 +109,7 @@ export default function Home() {
             step="any"  
             className="text-gray-500 w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-pink-500 hover:transition duration-100 ease-in-out"
             placeholder="Ingresa un valor numérico"
+            onChange={(e) => setEpss(e.target.value)}
           />
         </div>
 
@@ -82,7 +117,11 @@ export default function Home() {
 
 
       <div className="flex gap-4">
-        <button className=" bg-pink-700 text-white px-4 py-2 rounded-md hover:scale-110 transition delay-100 ease-in-out duration-300 hover:-translate-y-1">Busqueda Completa</button>   {/* ruta a ocupar http://127.0.0.1:8000/complete/
+        <button className=" bg-pink-700 text-white px-4 py-2 rounded-md hover:scale-110 transition delay-100 ease-in-out duration-300 hover:-translate-y-1"
+          onClick={getVulnerabilities}
+        >
+                  Busqueda Completa
+        </button>   {/* ruta a ocupar http://127.0.0.1:8000/complete/
 */}
         <button className="bg-pink-700 text-white px-4 py-2 rounded-md hover:scale-110 transition delay-100 ease-in-out duration-300 hover:-translate-y-1">Analisis Alto Riesgo</button>  {/* Analisis Alto Riesgo http://127.0.0.1:8000/risk/*/}
       </div>
